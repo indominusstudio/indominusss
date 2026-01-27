@@ -1,6 +1,146 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Dino Promo Shopee</title>
+
+<style>
+:root {
+  --bg: #0f172a;
+  --card: #020617;
+  --text: #e5e7eb;
+}
+.light {
+  --bg: #f8fafc;
+  --card: #ffffff;
+  --text: #020617;
+}
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+header {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+}
+button {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+section {
+  padding: 20px;
+}
+.card {
+  background: var(--card);
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+img {
+  max-width: 100%;
+  border-radius: 10px;
+}
+.hidden {
+  display: none;
+}
+.profile-pic {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.rank-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+</style>
+</head>
+
 <body>
-<h1>FUNCIONOU 🦖</h1>
+<header>
+  <h2>🦖 Dino Promo Shopee</h2>
+  <div>
+    <button onclick="toggleTheme()">🌗</button>
+    <button onclick="show('loja')">🛒 Loja</button>
+  </div>
+</header>
+
+<section id="home">
+  <div class="card">
+    <h3>Olá 👋</h3>
+    <p>Promoções de dinossauros da Shopee.</p>
+  </div>
+
+  <div class="card">
+    <h3>Mosassauro</h3>
+    <img src="mosassauro.jpg">
+    <p>Esse é o mosassauro que eu comprei.</p>
+  </div>
+
+  <div class="card">
+    <h3>🏆 Rank</h3>
+    <div id="rank"></div>
+  </div>
+</section>
+
+<section id="loja" class="hidden">
+  <div class="card">
+    <h3>Adicionar link</h3>
+    <input id="link" placeholder="Link Shopee / Vídeo"><br><br>
+    <button onclick="addLink()">Salvar</button>
+  </div>
+
+  <div class="card">
+    <h3>Perfil</h3>
+    <input id="name" placeholder="Nome"><br><br>
+    <input id="photo" placeholder="Link da foto (opcional)"><br><br>
+    <button onclick="saveProfile()">Salvar Perfil</button>
+  </div>
+</section>
+
+<script>
+let data = JSON.parse(localStorage.getItem("users") || "[]");
+
+function show(id){
+  document.getElementById("home").classList.add("hidden");
+  document.getElementById("loja").classList.add("hidden");
+  document.getElementById(id).classList.remove("hidden");
+}
+
+function saveProfile(){
+  let name = document.getElementById("name").value;
+  let photo = document.getElementById("photo").value || "default-profile.png";
+  if(!name) return alert("Coloca um nome");
+  data.push({name, photo, visits: 1});
+  localStorage.setItem("users", JSON.stringify(data));
+  alert("Perfil salvo");
+  loadRank();
+}
+
+function loadRank(){
+  let r = document.getElementById("rank");
+  r.innerHTML = "";
+  data.forEach(u=>{
+    let div = document.createElement("div");
+    div.className="rank-item";
+    div.innerHTML = `<img src="${u.photo}" class="profile-pic"> ${u.name}`;
+    r.appendChild(div);
+  });
+}
+loadRank();
+
+function addLink(){
+  alert("Link salvo no perfil (modelo simples)");
+}
+
+function toggleTheme(){
+  document.body.classList.toggle("light");
+}
+</script>
 </body>
 </html>
+
