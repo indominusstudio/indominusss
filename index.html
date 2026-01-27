@@ -5,79 +5,80 @@
 <title>Dino Promo Shopee</title>
 
 <style>
-:root {
-  --bg: #0f172a;
-  --card: #020617;
-  --text: #e5e7eb;
-}
-.light {
-  --bg: #f8fafc;
-  --card: #ffffff;
-  --text: #020617;
-}
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: var(--bg);
-  color: var(--text);
+  background: #0f172a;
+  color: #e5e7eb;
+}
+.light {
+  background: #f8fafc;
+  color: #020617;
 }
 header {
+  background: #16a34a;
+  padding: 15px;
   display: flex;
   justify-content: space-between;
-  padding: 15px;
+  align-items: center;
 }
 button {
-  padding: 8px 12px;
   cursor: pointer;
+  padding: 8px 12px;
 }
 section {
   padding: 20px;
 }
 .card {
-  background: var(--card);
+  background: #020617;
   padding: 15px;
   border-radius: 10px;
   margin-bottom: 15px;
 }
-img {
-  max-width: 100%;
-  border-radius: 10px;
+.light .card {
+  background: white;
 }
 .hidden {
   display: none;
-}
-.profile-pic {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  object-fit: cover;
 }
 .rank-item {
   display: flex;
   align-items: center;
   gap: 10px;
+  margin-bottom: 8px;
+}
+.rank-item img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+.profile-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
 }
 </style>
 </head>
 
 <body>
+
 <header>
-  <h2>🦖 Dino Promo Shopee</h2>
+  <strong>🦖 Dino Promo Shopee</strong>
   <div>
     <button onclick="toggleTheme()">🌗</button>
-    <button onclick="show('loja')">🛒 Loja</button>
+    <button onclick="showLoja()">🛒 Loja</button>
   </div>
 </header>
 
 <section id="home">
   <div class="card">
-    <h3>Olá 👋</h3>
+    <h2>Bem-vindo 👋</h2>
     <p>Promoções de dinossauros da Shopee.</p>
   </div>
 
   <div class="card">
     <h3>Mosassauro</h3>
-    <img src="mosassauro.jpg">
+    <img src="mosassauro.jpg" width="250">
     <p>Esse é o mosassauro que eu comprei.</p>
   </div>
 
@@ -90,56 +91,62 @@ img {
 <section id="loja" class="hidden">
   <div class="card">
     <h3>Adicionar link</h3>
-    <input id="link" placeholder="Link Shopee / Vídeo"><br><br>
-    <button onclick="addLink()">Salvar</button>
+    <input id="linkInput" placeholder="Cole o link"><br><br>
+    <button onclick="addLink()">Salvar link</button>
+    <ul id="links"></ul>
   </div>
 
   <div class="card">
     <h3>Perfil</h3>
-    <input id="name" placeholder="Nome"><br><br>
-    <input id="photo" placeholder="Link da foto (opcional)"><br><br>
-    <button onclick="saveProfile()">Salvar Perfil</button>
+    <img id="profileImg" src="default-profile.png" class="profile-img"><br><br>
+    <input id="nameInput" placeholder="Seu nome"><br><br>
+    <button onclick="saveProfile()">Salvar perfil</button>
   </div>
 </section>
 
 <script>
-let data = JSON.parse(localStorage.getItem("users") || "[]");
+let users = JSON.parse(localStorage.getItem("users") || "[]");
 
-function show(id){
+function showLoja(){
   document.getElementById("home").classList.add("hidden");
-  document.getElementById("loja").classList.add("hidden");
-  document.getElementById(id).classList.remove("hidden");
+  document.getElementById("loja").classList.remove("hidden");
 }
 
 function saveProfile(){
-  let name = document.getElementById("name").value;
-  let photo = document.getElementById("photo").value || "default-profile.png";
-  if(!name) return alert("Coloca um nome");
-  data.push({name, photo, visits: 1});
-  localStorage.setItem("users", JSON.stringify(data));
-  alert("Perfil salvo");
+  const name = document.getElementById("nameInput").value;
+  if(!name) return alert("Digite um nome");
+  users.push({name:name});
+  localStorage.setItem("users", JSON.stringify(users));
   loadRank();
+  alert("Perfil salvo!");
 }
 
 function loadRank(){
-  let r = document.getElementById("rank");
+  const r = document.getElementById("rank");
   r.innerHTML = "";
-  data.forEach(u=>{
-    let div = document.createElement("div");
-    div.className="rank-item";
-    div.innerHTML = `<img src="${u.photo}" class="profile-pic"> ${u.name}`;
+  users.forEach(u=>{
+    const div = document.createElement("div");
+    div.className = "rank-item";
+    div.innerHTML = `<img src="default-profile.png"> ${u.name}`;
     r.appendChild(div);
   });
 }
-loadRank();
 
 function addLink(){
-  alert("Link salvo no perfil (modelo simples)");
+  const ul = document.getElementById("links");
+  const link = document.getElementById("linkInput").value;
+  if(!link) return;
+  const li = document.createElement("li");
+  li.innerHTML = `<a href="${link}" target="_blank">${link}</a>`;
+  ul.appendChild(li);
 }
 
 function toggleTheme(){
   document.body.classList.toggle("light");
 }
+
+loadRank();
 </script>
+
 </body>
 </html>
