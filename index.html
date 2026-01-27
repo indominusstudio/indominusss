@@ -6,70 +6,92 @@
 
 <style>
 :root {
-  --bg: #0f172a;
-  --card: #1e293b;
-  --text: #e5e7eb;
+  --bg:#0b1220;
+  --card:#111827;
+  --text:#e5e7eb;
+  --accent:#22c55e;
 }
 
 .light {
-  --bg: #f8fafc;
-  --card: #ffffff;
-  --text: #0f172a;
+  --bg:#f1f5f9;
+  --card:#ffffff;
+  --text:#020617;
+  --accent:#16a34a;
 }
 
 body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: Arial, sans-serif;
-  margin: 0;
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial, sans-serif;
 }
 
 header {
-  padding: 20px;
-  text-align: center;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px;
 }
 
-button {
-  padding: 8px 12px;
-  cursor: pointer;
+.icon {
+  font-size:22px;
+  cursor:pointer;
 }
 
 .card {
-  background: var(--card);
-  padding: 15px;
-  margin: 15px;
-  border-radius: 10px;
+  background:var(--card);
+  margin:15px;
+  padding:15px;
+  border-radius:12px;
+}
+
+button {
+  background:var(--accent);
+  border:none;
+  padding:8px 12px;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+input {
+  width:100%;
+  padding:8px;
+  margin:5px 0;
+  border-radius:6px;
+  border:none;
 }
 
 img {
-  max-width: 100%;
-  border-radius: 10px;
+  max-width:100%;
+  border-radius:10px;
 }
+
+.hidden {display:none;}
 </style>
 </head>
 
 <body>
+
+<!-- CADASTRO -->
+<div id="login" class="card">
+<h2>🦖 Criar conta</h2>
+<input id="email" placeholder="Email">
+<input id="senha" type="password" placeholder="Senha">
+<button onclick="entrar()">Entrar</button>
+</div>
+
+<!-- SITE -->
+<div id="site" class="hidden">
+
 <header>
-  <h1>🦖 Dino Promo Shopee</h1>
-  <p>Olá! Aqui é o lugar de promoções de dinos da Shopee</p>
-  <button onclick="trocarModo()">🌙 / ☀️</button>
+  <div class="icon" onclick="perfil()">🟢</div>
+  <h2>Dino Promo Shopee</h2>
+  <div class="icon" onclick="modo()">🌙</div>
 </header>
 
 <section class="card">
-<h2>👤 Seu Perfil</h2>
-<input placeholder="Seu nome"><br><br>
-<input type="file">
-</section>
-
-<section class="card">
-<h2>🔗 Enviar link de dinossauro</h2>
-<input placeholder="Cole o link da Shopee">
-<button>Enviar</button>
-</section>
-
-<section class="card">
-<h2>🦈 Mosassauro</h2>
-<img src="https://down-br.img.susercontent.com/file/sg-11134201-22100-5d8a2xmosassauro">
+<h3>🦈 Mosassauro</h3>
+<img src="https://images.unsplash.com/photo-1621976360623-0042231b2fa6">
 <p>Esse é o mosassauro que eu comprei</p>
 <a href="https://shopee.com.br/Dinossauro-Brinquedo-Mosassauro-Infantil-Dino-Mossassauro-Vinil-Macio-Menino-Menina-30-cm-i.1588658960.22398747182">
 Ver na Shopee
@@ -77,9 +99,68 @@ Ver na Shopee
 </section>
 
 <section class="card">
-<h2>🏆 Top 10 Perfis</h2>
-<ol>
-<li>🦖 DinoKing</li>
-<li>🦕 RexBR</li>
-<li>🦖 MossaFan</li>
-<li>🦕 JPWorld<
+<h3>🔗 Seus links</h3>
+<input id="link" placeholder="Link de vídeo ou produto">
+<button onclick="addLink()">Adicionar</button>
+<ul id="links"></ul>
+</section>
+
+<section class="card">
+<h3>🏆 Ranking</h3>
+<ol id="rank"></ol>
+</section>
+
+</div>
+
+<script>
+const login = document.getElementById("login");
+const site = document.getElementById("site");
+
+if(localStorage.user){
+  login.classList.add("hidden");
+  site.classList.remove("hidden");
+  visita();
+}
+
+function entrar(){
+  localStorage.user = email.value;
+  localStorage.visitas = 0;
+  login.classList.add("hidden");
+  site.classList.remove("hidden");
+}
+
+function modo(){
+  document.body.classList.toggle("light");
+}
+
+function addLink(){
+  let lista = JSON.parse(localStorage.links || "[]");
+  lista.push(link.value);
+  localStorage.links = JSON.stringify(lista);
+  mostrarLinks();
+}
+
+function mostrarLinks(){
+  let ul = document.getElementById("links");
+  ul.innerHTML="";
+  (JSON.parse(localStorage.links||"[]")).forEach(l=>{
+    let li=document.createElement("li");
+    li.innerHTML=`<a href="${l}">${l}</a>`;
+    ul.appendChild(li);
+  });
+}
+mostrarLinks();
+
+function visita(){
+  localStorage.visitas++;
+  rank();
+}
+
+function rank(){
+  let ol=document.getElementById("rank");
+  ol.innerHTML=`<li>🦖 Você - ${localStorage.visitas} visitas</li>`;
+}
+</script>
+
+</body>
+</html>
