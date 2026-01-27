@@ -65,9 +65,10 @@ section{
   object-fit:cover;
 }
 .profile-big{
-  width:100px;
-  height:100px;
+  width:120px;
+  height:120px;
   border-radius:50%;
+  object-fit:cover;
 }
 input{
   padding:8px;
@@ -100,6 +101,11 @@ a{color:var(--accent)}
   </div>
 
   <div class="card">
+    <h3>🔎 Pesquisar dinossauro</h3>
+    <input id="search" placeholder="Ex: T-Rex, Mosassauro..." oninput="searchLinks()">
+  </div>
+
+  <div class="card">
     <h3>Mosassauro</h3>
     <img src="mosassauro.jpg" width="260">
     <p>Esse é o mosassauro que eu comprei.</p>
@@ -115,6 +121,7 @@ a{color:var(--accent)}
 <section id="loja" class="hidden">
   <div class="card">
     <h3>🛒 Enviar link</h3>
+    <input id="dinoName" placeholder="Nome do dinossauro">
     <input id="linkInput" placeholder="Link Shopee ou vídeo">
     <button onclick="addLink()">Salvar</button>
     <ul id="links"></ul>
@@ -127,7 +134,7 @@ a{color:var(--accent)}
     <h3>👤 Perfil</h3>
     <img id="profileImg" src="default-profile.png" class="profile-big"><br><br>
     <input id="nameInput" placeholder="Seu nome">
-    <input id="photoInput" placeholder="Link da foto (opcional)">
+    <input type="file" id="photoFile" accept="image/*">
     <button onclick="saveProfile()">Salvar Perfil</button>
   </div>
 </section>
@@ -137,7 +144,7 @@ a{color:var(--accent)}
   <div class="card">
     <h3>⚙️ Configurações</h3>
     <button onclick="toggleTheme()">🌗 Modo claro / escuro</button><br><br>
-    <button onclick="resetData()">🗑️ Apagar dados locais</button>
+    <button onclick="resetData()">🗑️ Apagar dados</button>
   </div>
 </section>
 
@@ -154,13 +161,23 @@ function show(id){
 
 function saveProfile(){
   const name = nameInput.value;
-  const photo = photoInput.value || "default-profile.png";
+  const file = photoFile.files[0];
   if(!name) return alert("Digite um nome");
-  users.push({name,photo});
-  localStorage.setItem("users",JSON.stringify(users));
-  profileImg.src = photo;
-  loadRank();
-  alert("Perfil salvo!");
+
+  if(file){
+    const reader = new FileReader();
+    reader.onload = () => {
+      users.push({name,photo:reader.result});
+      localStorage.setItem("users",JSON.stringify(users));
+      profileImg.src = reader.result;
+      loadRank();
+    };
+    reader.readAsDataURL(file);
+  } else {
+    users.push({name,photo:"default-profile.png"});
+    localStorage.setItem("users",JSON.stringify(users));
+    loadRank();
+  }
 }
 
 function loadRank(){
@@ -174,19 +191,28 @@ function loadRank(){
 }
 
 function addLink(){
-  if(!linkInput.value) return;
-  links.push(linkInput.value);
+  if(!linkInput.value || !dinoName.value) return;
+  links.push({name:dinoName.value,link:linkInput.value});
   localStorage.setItem("links",JSON.stringify(links));
-  renderLinks();
+  renderLinks(links);
+  dinoName.value="";
   linkInput.value="";
 }
 
-function renderLinks(){
-  links.forEach(l=>{
+function renderLinks(list){
+  const ul=document.getElementById("links");
+  ul.innerHTML="";
+  list.forEach(l=>{
     const li=document.createElement("li");
-    li.innerHTML=`<a href="${l}" target="_blank">${l}</a>`;
-    document.getElementById("links").appendChild(li);
+    li.innerHTML=`<strong>${l.name}</strong>: <a href="${l.link}" target="_blank">${l.link}</a>`;
+    ul.appendChild(li);
   });
+}
+
+function searchLinks(){
+  const q=search.value.toLowerCase();
+  const filtered=links.filter(l=>l.name.toLowerCase().includes(q));
+  renderLinks(filtered);
 }
 
 function toggleTheme(){
@@ -201,7 +227,7 @@ function resetData(){
 }
 
 loadRank();
-renderLinks();
+renderLinks(links);
 </script>
 
 </body>
