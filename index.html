@@ -5,58 +5,78 @@
 <title>Dino Promo Shopee</title>
 
 <style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #0f172a;
-  color: #e5e7eb;
+:root{
+  --bg:#0f172a;
+  --card:#020617;
+  --text:#e5e7eb;
+  --accent:#22c55e;
 }
-.light {
-  background: #f8fafc;
-  color: #020617;
+.light{
+  --bg:#f8fafc;
+  --card:#ffffff;
+  --text:#020617;
 }
-header {
-  background: #16a34a;
-  padding: 15px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:var(--bg);
+  color:var(--text);
 }
-button {
-  cursor: pointer;
-  padding: 8px 12px;
+header{
+  background:var(--card);
+  padding:15px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
-section {
-  padding: 20px;
+nav button{
+  margin-left:6px;
 }
-.card {
-  background: #020617;
-  padding: 15px;
-  border-radius: 10px;
-  margin-bottom: 15px;
+button{
+  padding:8px 12px;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  background:var(--accent);
+  color:black;
 }
-.light .card {
-  background: white;
+section{
+  padding:20px;
 }
-.hidden {
-  display: none;
+.card{
+  background:var(--card);
+  padding:15px;
+  border-radius:12px;
+  margin-bottom:15px;
 }
-.rank-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 8px;
+.hidden{display:none}
+.rank-item{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:8px;
 }
-.rank-item img {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+.rank-item img,
+.profile-img{
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  object-fit:cover;
 }
-.profile-img {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
+.profile-big{
+  width:100px;
+  height:100px;
+  border-radius:50%;
 }
+input{
+  padding:8px;
+  width:100%;
+  margin-bottom:8px;
+  border-radius:6px;
+  border:1px solid #999;
+}
+a{color:var(--accent)}
 </style>
 </head>
 
@@ -64,12 +84,15 @@ section {
 
 <header>
   <strong>🦖 Dino Promo Shopee</strong>
-  <div>
-    <button onclick="toggleTheme()">🌗</button>
-    <button onclick="showLoja()">🛒 Loja</button>
-  </div>
+  <nav>
+    <button onclick="show('home')">Home</button>
+    <button onclick="show('loja')">Loja</button>
+    <button onclick="show('perfil')">Perfil</button>
+    <button onclick="show('config')">⚙️</button>
+  </nav>
 </header>
 
+<!-- HOME -->
 <section id="home">
   <div class="card">
     <h2>Bem-vindo 👋</h2>
@@ -78,7 +101,7 @@ section {
 
   <div class="card">
     <h3>Mosassauro</h3>
-    <img src="mosassauro.jpg" width="250">
+    <img src="mosassauro.jpg" width="260">
     <p>Esse é o mosassauro que eu comprei.</p>
   </div>
 
@@ -88,64 +111,97 @@ section {
   </div>
 </section>
 
+<!-- LOJA -->
 <section id="loja" class="hidden">
   <div class="card">
-    <h3>Adicionar link</h3>
-    <input id="linkInput" placeholder="Cole o link"><br><br>
-    <button onclick="addLink()">Salvar link</button>
+    <h3>🛒 Enviar link</h3>
+    <input id="linkInput" placeholder="Link Shopee ou vídeo">
+    <button onclick="addLink()">Salvar</button>
     <ul id="links"></ul>
   </div>
+</section>
 
+<!-- PERFIL -->
+<section id="perfil" class="hidden">
   <div class="card">
-    <h3>Perfil</h3>
-    <img id="profileImg" src="default-profile.png" class="profile-img"><br><br>
-    <input id="nameInput" placeholder="Seu nome"><br><br>
-    <button onclick="saveProfile()">Salvar perfil</button>
+    <h3>👤 Perfil</h3>
+    <img id="profileImg" src="default-profile.png" class="profile-big"><br><br>
+    <input id="nameInput" placeholder="Seu nome">
+    <input id="photoInput" placeholder="Link da foto (opcional)">
+    <button onclick="saveProfile()">Salvar Perfil</button>
+  </div>
+</section>
+
+<!-- CONFIG -->
+<section id="config" class="hidden">
+  <div class="card">
+    <h3>⚙️ Configurações</h3>
+    <button onclick="toggleTheme()">🌗 Modo claro / escuro</button><br><br>
+    <button onclick="resetData()">🗑️ Apagar dados locais</button>
   </div>
 </section>
 
 <script>
-let users = JSON.parse(localStorage.getItem("users") || "[]");
+let users = JSON.parse(localStorage.getItem("users")||"[]");
+let links = JSON.parse(localStorage.getItem("links")||"[]");
 
-function showLoja(){
-  document.getElementById("home").classList.add("hidden");
-  document.getElementById("loja").classList.remove("hidden");
+function show(id){
+  ["home","loja","perfil","config"].forEach(s=>{
+    document.getElementById(s).classList.add("hidden");
+  });
+  document.getElementById(id).classList.remove("hidden");
 }
 
 function saveProfile(){
-  const name = document.getElementById("nameInput").value;
+  const name = nameInput.value;
+  const photo = photoInput.value || "default-profile.png";
   if(!name) return alert("Digite um nome");
-  users.push({name:name});
-  localStorage.setItem("users", JSON.stringify(users));
+  users.push({name,photo});
+  localStorage.setItem("users",JSON.stringify(users));
+  profileImg.src = photo;
   loadRank();
   alert("Perfil salvo!");
 }
 
 function loadRank(){
-  const r = document.getElementById("rank");
-  r.innerHTML = "";
+  rank.innerHTML="";
   users.forEach(u=>{
-    const div = document.createElement("div");
-    div.className = "rank-item";
-    div.innerHTML = `<img src="default-profile.png"> ${u.name}`;
-    r.appendChild(div);
+    const div=document.createElement("div");
+    div.className="rank-item";
+    div.innerHTML=`<img src="${u.photo}"> ${u.name}`;
+    rank.appendChild(div);
   });
 }
 
 function addLink(){
-  const ul = document.getElementById("links");
-  const link = document.getElementById("linkInput").value;
-  if(!link) return;
-  const li = document.createElement("li");
-  li.innerHTML = `<a href="${link}" target="_blank">${link}</a>`;
-  ul.appendChild(li);
+  if(!linkInput.value) return;
+  links.push(linkInput.value);
+  localStorage.setItem("links",JSON.stringify(links));
+  renderLinks();
+  linkInput.value="";
+}
+
+function renderLinks(){
+  links.forEach(l=>{
+    const li=document.createElement("li");
+    li.innerHTML=`<a href="${l}" target="_blank">${l}</a>`;
+    document.getElementById("links").appendChild(li);
+  });
 }
 
 function toggleTheme(){
   document.body.classList.toggle("light");
 }
 
+function resetData(){
+  if(confirm("Apagar tudo?")){
+    localStorage.clear();
+    location.reload();
+  }
+}
+
 loadRank();
+renderLinks();
 </script>
 
 </body>
