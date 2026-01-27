@@ -6,98 +6,76 @@
 
 <style>
 :root {
-  --bg: #f5f5f5;
-  --text: #111;
-  --card: white;
+  --bg:#f5f5f5;
+  --text:#111;
+  --card:white;
 }
-
 body.dark {
-  --bg: #111;
-  --text: #eee;
-  --card: #1e1e1e;
+  --bg:#111;
+  --text:#eee;
+  --card:#1e1e1e;
 }
-
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: var(--bg);
-  color: var(--text);
+  margin:0;
+  font-family:Arial;
+  background:var(--bg);
+  color:var(--text);
 }
-
 header {
-  padding: 15px;
-  background: #00ff88;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  background:#00ff88;
+  padding:15px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
-
-button {
-  cursor: pointer;
-}
-
-.container {
-  padding: 20px;
-}
-
+.container { padding:20px; }
 .card {
-  background: var(--card);
-  padding: 15px;
-  border-radius: 10px;
-  margin-bottom: 20px;
+  background:var(--card);
+  padding:15px;
+  border-radius:10px;
+  margin-bottom:20px;
 }
-
-/* botão loja */
 .btn-loja {
-  position: fixed;
-  top: 15px;
-  right: 15px;
-  background: #00ff88;
-  padding: 10px 15px;
-  border-radius: 20px;
-  text-decoration: none;
-  color: black;
-  font-weight: bold;
+  position:fixed;
+  top:15px;
+  right:15px;
+  background:#00ff88;
+  padding:10px 15px;
+  border-radius:20px;
+  color:black;
+  text-decoration:none;
+  font-weight:bold;
 }
-
-/* perfil */
-.profile {
-  display: flex;
-  gap: 15px;
-  align-items: center;
-}
-
-.profile img {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-/* anuncio */
 .anuncio {
-  display: flex;
-  gap: 20px;
-  align-items: center;
+  display:flex;
+  gap:20px;
+  align-items:center;
 }
-
 .anuncio img {
-  width: 200px;
-  border-radius: 10px;
+  width:220px;
+  border-radius:10px;
 }
-
-/* rank */
+.profile {
+  display:flex;
+  gap:15px;
+  align-items:center;
+}
+.profile img {
+  width:80px;
+  height:80px;
+  border-radius:50%;
+  object-fit:cover;
+}
 .rank-item {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  margin-bottom: 10px;
+  display:flex;
+  gap:10px;
+  align-items:center;
+  margin-bottom:10px;
 }
-
 .rank-item img {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+  width:40px;
+  height:40px;
+  border-radius:50%;
 }
 </style>
 </head>
@@ -106,141 +84,16 @@ button {
 
 <header>
   <strong>🦖 Dino Promo Shopee</strong>
-  <div>
-    <button onclick="toggleTheme()">🌗</button>
-  </div>
+  <button onclick="toggleTheme()">🌗</button>
 </header>
 
 <a href="#loja" class="btn-loja">🛒 Loja</a>
 
 <div class="container">
 
-<!-- TEXTO INICIAL -->
+<!-- TELA INICIAL -->
 <div class="card">
-  <h2>Olá 👋</h2>
+  <h2>Bem-vindo 👋</h2>
   <p>
-    Aqui é o lugar de promoção de dinos da Shopee, criado pelo dono do canal.
-    Use a busca para achar dinossauros com preço bom 🦕
-  </p>
-</div>
-
-<!-- PERFIL -->
-<div class="card">
-  <h3>👤 Seu Perfil</h3>
-
-  <div class="profile">
-    <img id="profileImg" src="default-profile.png">
-    <div>
-      <input id="nomePerfil" placeholder="Seu nome"><br><br>
-      <input type="file" id="fotoPerfil"><br><br>
-      <button onclick="salvarPerfil()">Salvar Perfil</button>
-    </div>
-  </div>
-</div>
-
-<!-- ANUNCIO MOSASSAURO -->
-<div class="card anuncio">
-  <div>
-    <h3>Mosassauro 🦖</h3>
-    <p>Esse é o mosassauro que eu comprei</p>
-    <a target="_blank" href="https://shopee.com.br/Dinossauro-Brinquedo-Mosassauro-Infantil-Dino-Mossassauro-Vinil-Macio-Menino-Menina-30-cm-i.1588658960.22398747182">
-      Ver na Shopee
-    </a>
-  </div>
-
-  <img src="mosassauro.jpg">
-</div>
-
-<!-- LOJA / LINKS -->
-<div class="card" id="loja">
-  <h3>🛒 Seus Links</h3>
-  <input id="linkPerfil" placeholder="Cole link da Shopee ou vídeo">
-  <button onclick="salvarLink()">Adicionar</button>
-
-  <ul id="listaLinks"></ul>
-</div>
-
-<!-- RANK -->
-<div class="card">
-  <h3>🔥 Top 10 Perfis</h3>
-
-  <div class="rank-item">
-    <img src="default-profile.png">
-    <span>DinoFan01</span>
-  </div>
-
-  <div class="rank-item">
-    <img src="default-profile.png">
-    <span>MosasaKing</span>
-  </div>
-
-  <div class="rank-item">
-    <img src="default-profile.png">
-    <span>DinoShopBR</span>
-  </div>
-</div>
-
-</div>
-
-<script>
-/* tema */
-function toggleTheme() {
-  document.body.classList.toggle("dark");
-}
-
-/* perfil */
-function salvarPerfil() {
-  const nome = document.getElementById("nomePerfil").value;
-  localStorage.setItem("nome", nome);
-
-  const file = document.getElementById("fotoPerfil").files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = () => {
-      localStorage.setItem("foto", reader.result);
-      document.getElementById("profileImg").src = reader.result;
-    };
-    reader.readAsDataURL(file);
-  }
-}
-
-function carregarPerfil() {
-  const nome = localStorage.getItem("nome");
-  const foto = localStorage.getItem("foto");
-
-  if (nome) document.getElementById("nomePerfil").value = nome;
-  if (foto) document.getElementById("profileImg").src = foto;
-}
-
-carregarPerfil();
-
-/* links */
-function salvarLink() {
-  const link = document.getElementById("linkPerfil").value;
-  let links = JSON.parse(localStorage.getItem("links")) || [];
-  links.push(link);
-  localStorage.setItem("links", JSON.stringify(links));
-  mostrarLinks();
-}
-
-function mostrarLinks() {
-  const ul = document.getElementById("listaLinks");
-  ul.innerHTML = "";
-
-  let links = JSON.parse(localStorage.getItem("links")) || [];
-  links.forEach(l => {
-    const li = document.createElement("li");
-    li.innerHTML = `<a href="${l}" target="_blank">${l}</a>`;
-    ul.appendChild(li);
-  });
-}
-
-mostrarLinks();
-</script>
-
-<footer style="text-align:center;padding:10px;">
-  © 2026 – Dino Promo Shopee
-</footer>
-
-</body>
-</html>
+    Aqui você encontra promos de dinossauros da Shopee.
+    Clique em <strong>Loja</strong> para criar seu perf
