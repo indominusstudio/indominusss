@@ -1,109 +1,85 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dino Promo Shopee</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0e0e0e;
-      color: #ffffff;
-    }
-    header {
-      background: #111;
-      padding: 20px;
-      text-align: center;
-    }
-    header h1 { margin: 0; }
+<meta charset="UTF-8">
+<title>Dino Promo Shopee</title>
 
-    .search {
-      padding: 15px;
-    }
-    .search input {
-      width: 100%;
-      padding: 10px;
-      border-radius: 8px;
-      border: none;
-      font-size: 16px;
-    }
+<style>
+:root {
+  --bg: #0f172a;
+  --card: #1e293b;
+  --text: #e5e7eb;
+}
 
-    section {
-      padding: 20px;
-    }
+.light {
+  --bg: #f8fafc;
+  --card: #ffffff;
+  --text: #0f172a;
+}
 
-    .card {
-      background: #1b1b1b;
-      border-radius: 10px;
-      padding: 15px;
-      margin-bottom: 15px;
-    }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, sans-serif;
+  margin: 0;
+}
 
-    .card a {
-      color: #4cff4c;
-      text-decoration: none;
-      word-break: break-all;
-    }
+header {
+  padding: 20px;
+  text-align: center;
+}
 
-    .top10 li {
-      margin: 8px 0;
-    }
+button {
+  padding: 8px 12px;
+  cursor: pointer;
+}
 
-    footer {
-      text-align: center;
-      font-size: 12px;
-      color: #888;
-      padding: 10px;
-    }
-  </style>
+.card {
+  background: var(--card);
+  padding: 15px;
+  margin: 15px;
+  border-radius: 10px;
+}
+
+img {
+  max-width: 100%;
+  border-radius: 10px;
+}
+</style>
 </head>
-<body>
 
+<body>
 <header>
   <h1>🦖 Dino Promo Shopee</h1>
-  <p>Promoções de dinossauros com preço bom</p>
+  <p>Olá! Aqui é o lugar de promoções de dinos da Shopee</p>
+  <button onclick="trocarModo()">🌙 / ☀️</button>
 </header>
 
-<div class="search">
-  <input type="text" placeholder="Pesquisar perfis ou itens de dinossauro..." />
-</div>
-
-<section>
-  <div class="card">
-    <p><strong>Olá!</strong> Aqui é o lugar de promoção de dinos da Shopee, criado pelo dono do canal. Use a barra de pesquisa para achar dinossauros com preço bom 🦕🦖</p>
-  </div>
-
-  <div class="card">
-    <h3>🦖 Dino recomendado</h3>
-    <p><strong>Esse é o mosassauro que eu comprei:</strong></p>
-    <a href="https://shopee.com.br/Dinossauro-Brinquedo-Mosassauro-Infantil-Dino-Mossassauro-Vinil-Macio-Menino-Menina-30-cm-i.1588658960.22398747182?xptdk=15770a9a-4d53-4358-a07c-46d35b53fe88" target="_blank">
-      Link do Mosassauro na Shopee
-    </a>
-  </div>
+<section class="card">
+<h2>👤 Seu Perfil</h2>
+<input placeholder="Seu nome"><br><br>
+<input type="file">
 </section>
 
-<section>
-  <div class="card">
-    <h3>🏆 Top 10 Perfis Mais Visitados</h3>
-    <ol class="top10">
-      <li>Perfil DinoAlpha</li>
-      <li>Perfil RexShop</li>
-      <li>Perfil JurassicDeals</li>
-      <li>Perfil DinoWorld</li>
-      <li>Perfil FossilStore</li>
-      <li>Perfil PrehistoricBuy</li>
-      <li>Perfil DinoKids</li>
-      <li>Perfil MegaRex</li>
-      <li>Perfil DinoBrasil</li>
-      <li>Perfil PrimeDino</li>
-    </ol>
-  </div>
+<section class="card">
+<h2>🔗 Enviar link de dinossauro</h2>
+<input placeholder="Cole o link da Shopee">
+<button>Enviar</button>
 </section>
 
-<footer>
-  © 2026 - Dino Promo Shopee | Projeto em desenvolvimento
-</footer>
+<section class="card">
+<h2>🦈 Mosassauro</h2>
+<img src="https://down-br.img.susercontent.com/file/sg-11134201-22100-5d8a2xmosassauro">
+<p>Esse é o mosassauro que eu comprei</p>
+<a href="https://shopee.com.br/Dinossauro-Brinquedo-Mosassauro-Infantil-Dino-Mossassauro-Vinil-Macio-Menino-Menina-30-cm-i.1588658960.22398747182">
+Ver na Shopee
+</a>
+</section>
 
-</body>
-</html>
+<section class="card">
+<h2>🏆 Top 10 Perfis</h2>
+<ol>
+<li>🦖 DinoKing</li>
+<li>🦕 RexBR</li>
+<li>🦖 MossaFan</li>
+<li>🦕 JPWorld<
