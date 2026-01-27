@@ -6,161 +6,92 @@
 
 <style>
 :root {
-  --bg:#0b1220;
-  --card:#111827;
-  --text:#e5e7eb;
-  --accent:#22c55e;
+  --bg: #f5f5f5;
+  --text: #111;
+  --card: white;
 }
 
-.light {
-  --bg:#f1f5f9;
-  --card:#ffffff;
-  --text:#020617;
-  --accent:#16a34a;
+body.dark {
+  --bg: #111;
+  --text: #eee;
+  --card: #1e1e1e;
 }
 
 body {
-  margin:0;
-  background:var(--bg);
-  color:var(--text);
-  font-family:Arial, sans-serif;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
 }
 
 header {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:15px;
-}
-
-.icon {
-  font-size:22px;
-  cursor:pointer;
-}
-
-.card {
-  background:var(--card);
-  margin:15px;
-  padding:15px;
-  border-radius:12px;
+  padding: 15px;
+  background: #00ff88;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 button {
-  background:var(--accent);
-  border:none;
-  padding:8px 12px;
-  border-radius:8px;
-  cursor:pointer;
+  cursor: pointer;
 }
 
-input {
-  width:100%;
-  padding:8px;
-  margin:5px 0;
-  border-radius:6px;
-  border:none;
+.container {
+  padding: 20px;
 }
 
-img {
-  max-width:100%;
-  border-radius:10px;
+.card {
+  background: var(--card);
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
 }
 
-.hidden {display:none;}
-</style>
-</head>
-
-<body>
-
-<!-- CADASTRO -->
-<div id="login" class="card">
-<h2>🦖 Criar conta</h2>
-<input id="email" placeholder="Email">
-<input id="senha" type="password" placeholder="Senha">
-<button onclick="entrar()">Entrar</button>
-</div>
-
-<!-- SITE -->
-<div id="site" class="hidden">
-
-<header>
-  <div class="icon" onclick="perfil()">🟢</div>
-  <h2>Dino Promo Shopee</h2>
-  <div class="icon" onclick="modo()">🌙</div>
-</header>
-
-<section class="card">
-<h3>🦈 Mosassauro</h3>
-<img src="https://images.unsplash.com/photo-1621976360623-0042231b2fa6">
-<p>Esse é o mosassauro que eu comprei</p>
-<a href="https://shopee.com.br/Dinossauro-Brinquedo-Mosassauro-Infantil-Dino-Mossassauro-Vinil-Macio-Menino-Menina-30-cm-i.1588658960.22398747182">
-Ver na Shopee
-</a>
-</section>
-
-<section class="card">
-<h3>🔗 Seus links</h3>
-<input id="link" placeholder="Link de vídeo ou produto">
-<button onclick="addLink()">Adicionar</button>
-<ul id="links"></ul>
-</section>
-
-<section class="card">
-<h3>🏆 Ranking</h3>
-<ol id="rank"></ol>
-</section>
-
-</div>
-
-<script>
-const login = document.getElementById("login");
-const site = document.getElementById("site");
-
-if(localStorage.user){
-  login.classList.add("hidden");
-  site.classList.remove("hidden");
-  visita();
+/* botão loja */
+.btn-loja {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  background: #00ff88;
+  padding: 10px 15px;
+  border-radius: 20px;
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
 }
 
-function entrar(){
-  localStorage.user = email.value;
-  localStorage.visitas = 0;
-  login.classList.add("hidden");
-  site.classList.remove("hidden");
+/* perfil */
+.profile {
+  display: flex;
+  gap: 15px;
+  align-items: center;
 }
 
-function modo(){
-  document.body.classList.toggle("light");
+.profile img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
-function addLink(){
-  let lista = JSON.parse(localStorage.links || "[]");
-  lista.push(link.value);
-  localStorage.links = JSON.stringify(lista);
-  mostrarLinks();
+/* anuncio */
+.anuncio {
+  display: flex;
+  gap: 20px;
+  align-items: center;
 }
 
-function mostrarLinks(){
-  let ul = document.getElementById("links");
-  ul.innerHTML="";
-  (JSON.parse(localStorage.links||"[]")).forEach(l=>{
-    let li=document.createElement("li");
-    li.innerHTML=`<a href="${l}">${l}</a>`;
-    ul.appendChild(li);
-  });
-}
-mostrarLinks();
-
-function visita(){
-  localStorage.visitas++;
-  rank();
+.anuncio img {
+  width: 200px;
+  border-radius: 10px;
 }
 
-function rank(){
-  let ol=document.getElementById("rank");
-  ol.innerHTML=`<li>🦖 Você - ${localStorage.visitas} visitas</li>`;
+/* rank */
+.rank-item {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
 }
-</script>
 
-</body>
-</html>
+.rank-
