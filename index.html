@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Dino Promo Shopee</title>
+<title>Dino Promo</title>
 
 <style>
 :root{
@@ -25,25 +25,29 @@ body{
 }
 header{
   background:var(--card);
-  padding:15px;
+  padding:12px;
+}
+.top{
   display:flex;
-  justify-content:space-between;
+  gap:10px;
   align-items:center;
 }
-nav button{
-  margin-left:6px;
-}
-button{
-  padding:8px 12px;
+input,button{
+  padding:8px;
+  border-radius:6px;
   border:none;
-  border-radius:8px;
-  cursor:pointer;
+}
+input{flex:1}
+button{
   background:var(--accent);
-  color:black;
+  cursor:pointer;
 }
-section{
-  padding:20px;
+nav{
+  margin-top:10px;
+  display:flex;
+  gap:6px;
 }
+section{padding:20px}
 .card{
   background:var(--card);
   padding:15px;
@@ -51,32 +55,17 @@ section{
   margin-bottom:15px;
 }
 .hidden{display:none}
+img{
+  object-fit:cover;
+}
 .rank-item{
   display:flex;
   align-items:center;
   gap:10px;
-  margin-bottom:8px;
+  margin-bottom:6px;
 }
-.rank-item img,
-.profile-img{
-  width:50px;
-  height:50px;
-  border-radius:50%;
-  object-fit:cover;
-}
-.profile-big{
-  width:120px;
-  height:120px;
-  border-radius:50%;
-  object-fit:cover;
-}
-input{
-  padding:8px;
-  width:100%;
-  margin-bottom:8px;
-  border-radius:6px;
-  border:1px solid #999;
-}
+.rank-item img{width:40px;height:40px;border-radius:50%}
+.profile-big{width:120px;height:120px;border-radius:50%}
 a{color:var(--accent)}
 </style>
 </head>
@@ -84,7 +73,10 @@ a{color:var(--accent)}
 <body>
 
 <header>
-  <strong>🦖 Dino Promo Shopee</strong>
+  <div class="top">
+    <strong>🦖 Dino Promo</strong>
+    <input id="search" placeholder="Pesquisar dinossauro..." oninput="searchGlobal()">
+  </div>
   <nav>
     <button onclick="show('home')">Home</button>
     <button onclick="show('loja')">Loja</button>
@@ -96,18 +88,8 @@ a{color:var(--accent)}
 <!-- HOME -->
 <section id="home">
   <div class="card">
-    <h2>Bem-vindo 👋</h2>
-    <p>Promoções de dinossauros da Shopee.</p>
-  </div>
-
-  <div class="card">
-    <h3>🔎 Pesquisar dinossauro</h3>
-    <input id="search" placeholder="Ex: T-Rex, Mosassauro..." oninput="searchLinks()">
-  </div>
-
-  <div class="card">
     <h3>Mosassauro</h3>
-    <img src="mosassauro.jpg" width="260">
+    <img src="mosassauro.jpg" width="240" style="border-radius:12px">
     <p>Esse é o mosassauro que eu comprei.</p>
   </div>
 
@@ -120,11 +102,10 @@ a{color:var(--accent)}
 <!-- LOJA -->
 <section id="loja" class="hidden">
   <div class="card">
-    <h3>🛒 Enviar link</h3>
+    <h3>🛒 Adicionar link (verificado 🤖)</h3>
     <input id="dinoName" placeholder="Nome do dinossauro">
-    <input id="linkInput" placeholder="Link Shopee ou vídeo">
-    <button onclick="addLink()">Salvar</button>
-    <ul id="links"></ul>
+    <input id="linkInput" placeholder="Link da loja">
+    <button onclick="addLink()">Enviar</button>
   </div>
 </section>
 
@@ -137,6 +118,11 @@ a{color:var(--accent)}
     <input type="file" id="photoFile" accept="image/*">
     <button onclick="saveProfile()">Salvar Perfil</button>
   </div>
+
+  <div class="card">
+    <h3>📎 Meus links</h3>
+    <ul id="myLinks"></ul>
+  </div>
 </section>
 
 <!-- CONFIG -->
@@ -144,14 +130,30 @@ a{color:var(--accent)}
   <div class="card">
     <h3>⚙️ Configurações</h3>
     <button onclick="toggleTheme()">🌗 Modo claro / escuro</button><br><br>
-    <button onclick="resetData()">🗑️ Apagar dados</button>
+    <button onclick="resetData()">🗑️ Apagar tudo</button>
   </div>
 </section>
 
 <script>
+/* ===== IA DE VALIDAÇÃO DE LOJAS ===== */
+const allowedStores = [
+  "shopee.",
+  "amazon.",
+  "mercadolivre.",
+  "aliexpress.",
+  "magazineluiza."
+];
+
+function isValidStoreLink(link){
+  return allowedStores.some(store => link.includes(store));
+}
+
+/* ===== DADOS ===== */
+let profile = JSON.parse(localStorage.getItem("profile")||"null");
 let users = JSON.parse(localStorage.getItem("users")||"[]");
 let links = JSON.parse(localStorage.getItem("links")||"[]");
 
+/* ===== NAVEGAÇÃO ===== */
 function show(id){
   ["home","loja","perfil","config"].forEach(s=>{
     document.getElementById(s).classList.add("hidden");
@@ -159,6 +161,7 @@ function show(id){
   document.getElementById(id).classList.remove("hidden");
 }
 
+/* ===== PERFIL ===== */
 function saveProfile(){
   const name = nameInput.value;
   const file = photoFile.files[0];
@@ -167,58 +170,81 @@ function saveProfile(){
   if(file){
     const reader = new FileReader();
     reader.onload = () => {
-      users.push({name,photo:reader.result});
-      localStorage.setItem("users",JSON.stringify(users));
-      profileImg.src = reader.result;
-      loadRank();
+      profile={name,photo:reader.result};
+      localStorage.setItem("profile",JSON.stringify(profile));
+      addUser(profile);
     };
     reader.readAsDataURL(file);
-  } else {
-    users.push({name,photo:"default-profile.png"});
-    localStorage.setItem("users",JSON.stringify(users));
-    loadRank();
+  }else{
+    profile={name,photo:"default-profile.png"};
+    localStorage.setItem("profile",JSON.stringify(profile));
+    addUser(profile);
   }
 }
 
+function addUser(p){
+  users.push(p);
+  localStorage.setItem("users",JSON.stringify(users));
+  profileImg.src=p.photo;
+  loadRank();
+}
+
+/* ===== RANK ===== */
 function loadRank(){
   rank.innerHTML="";
   users.forEach(u=>{
-    const div=document.createElement("div");
-    div.className="rank-item";
-    div.innerHTML=`<img src="${u.photo}"> ${u.name}`;
-    rank.appendChild(div);
+    const d=document.createElement("div");
+    d.className="rank-item";
+    d.innerHTML=`<img src="${u.photo}"> ${u.name}`;
+    rank.appendChild(d);
   });
 }
 
+/* ===== LINKS ===== */
 function addLink(){
-  if(!linkInput.value || !dinoName.value) return;
-  links.push({name:dinoName.value,link:linkInput.value});
+  if(!profile) return alert("Crie um perfil primeiro");
+
+  const name=dinoName.value;
+  const link=linkInput.value;
+
+  if(!name || !link) return alert("Preencha tudo");
+
+  if(!isValidStoreLink(link)){
+    alert("❌ Link bloqueado.\nA IA só aceita links de lojas de compra.");
+    return;
+  }
+
+  links.push({owner:profile.name,name,link});
   localStorage.setItem("links",JSON.stringify(links));
-  renderLinks(links);
   dinoName.value="";
   linkInput.value="";
+  showMyLinks();
+  alert("✅ Link aprovado pela IA!");
 }
 
-function renderLinks(list){
-  const ul=document.getElementById("links");
-  ul.innerHTML="";
-  list.forEach(l=>{
-    const li=document.createElement("li");
-    li.innerHTML=`<strong>${l.name}</strong>: <a href="${l.link}" target="_blank">${l.link}</a>`;
-    ul.appendChild(li);
-  });
+function showMyLinks(){
+  myLinks.innerHTML="";
+  links.filter(l=>profile && l.owner===profile.name)
+    .forEach(l=>{
+      const li=document.createElement("li");
+      li.innerHTML=`<strong>${l.name}</strong>: <a href="${l.link}" target="_blank">${l.link}</a>`;
+      myLinks.appendChild(li);
+    });
 }
 
-function searchLinks(){
+/* ===== PESQUISA GLOBAL ===== */
+function searchGlobal(){
   const q=search.value.toLowerCase();
-  const filtered=links.filter(l=>l.name.toLowerCase().includes(q));
-  renderLinks(filtered);
+  const res=links.filter(l=>l.name.toLowerCase().includes(q));
+  if(q.length>2){
+    alert(res.map(r=>r.name+" → "+r.link).join("\n") || "Nada encontrado");
+  }
 }
 
+/* ===== CONFIG ===== */
 function toggleTheme(){
   document.body.classList.toggle("light");
 }
-
 function resetData(){
   if(confirm("Apagar tudo?")){
     localStorage.clear();
@@ -226,8 +252,12 @@ function resetData(){
   }
 }
 
+/* ===== INIT ===== */
+if(profile){
+  profileImg.src=profile.photo;
+  showMyLinks();
+}
 loadRank();
-renderLinks(links);
 </script>
 
 </body>
