@@ -1,12 +1,13 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Teste</title>
-</head>
-<body>
+<script>
+function mostrar(id) {
+  document.querySelectorAll('.section').forEach(sec => {
+    sec.classList.remove('active');
+  });
+  document.getElementById(id).classList.add('active');
+}
 
-<button onclick="alert('FUNCIONA')">CLICA AQUI</button>
-
-</body>
-</html>
+document.getElementById("btnInicio").addEventListener("click", () => mostrar("inicio"));
+document.getElementById("btnLoja").addEventListener("click", () => mostrar("loja"));
+document.getElementById("btnPerfil").addEventListener("click", () => mostrar("perfil"));
+document.getElementById("btnConfig").addEventListener("click", () => mostrar("config"));
+</script>
