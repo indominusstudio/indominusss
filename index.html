@@ -1,13 +1,126 @@
-<script>
-function mostrar(id) {
-  document.querySelectorAll('.section').forEach(sec => {
-    sec.classList.remove('active');
-  });
-  document.getElementById(id).classList.add('active');
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Indominus Promo</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #111;
+  color: white;
+  margin: 0;
 }
 
-document.getElementById("btnInicio").addEventListener("click", () => mostrar("inicio"));
-document.getElementById("btnLoja").addEventListener("click", () => mostrar("loja"));
-document.getElementById("btnPerfil").addEventListener("click", () => mostrar("perfil"));
-document.getElementById("btnConfig").addEventListener("click", () => mostrar("config"));
+/* MENU */
+nav {
+  background: #1c1c1c;
+  padding: 10px;
+  display: flex;
+  justify-content: space-around;
+}
+
+nav button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+/* PESQUISA */
+header {
+  padding: 15px;
+  background: #181818;
+  display: flex;
+  gap: 10px;
+}
+
+input {
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  width: 100%;
+}
+
+/* SEÇÕES */
+.section {
+  padding: 20px;
+}
+
+.card {
+  background: #222;
+  padding: 15px;
+  border-radius: 12px;
+  margin-top: 10px;
+}
+
+.perfil {
+  background: #333;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 6px;
+}
+
+a {
+  color: #4da6ff;
+  text-decoration: none;
+}
+</style>
+</head>
+
+<body>
+
+<!-- MENU -->
+<nav>
+  <button>Início</button>
+  <button>Loja</button>
+  <button>Perfil</button>
+  <button>Config</button>
+</nav>
+
+<!-- BARRAS DE PESQUISA -->
+<header>
+  <input id="pesquisaDino" placeholder="Pesquisar dinossauro">
+  <input id="pesquisaPerfil" placeholder="Pesquisar perfil" onkeyup="filtrarPerfis()">
+</header>
+
+<!-- MOSASSAURO -->
+<div class="section">
+  <h2>Mosassauro em destaque</h2>
+  <div class="card">
+    <img src="https://i.imgur.com/2yaf2wb.png" width="230"><br><br>
+
+    <a href="https://shopee.com.br/Dinossauro-Brinquedo-Mosassauro-Infantil-Dino-Mossassauro-Vinil-Macio-Menino-Menina-30-cm-i.1588658960.22398747182" target="_blank">
+      Ir para a loja
+    </a>
+
+    <p>Esse é o mosassauro que eu comprei</p>
+  </div>
+</div>
+
+<!-- RANK -->
+<div class="section">
+  <h2>Ranking</h2>
+  <div id="listaPerfis">
+    <div class="perfil">IndominusStudio</div>
+    <div class="perfil">DinoKing</div>
+    <div class="perfil">MosassauroBR</div>
+  </div>
+</div>
+
+<script>
+function filtrarPerfis() {
+  let filtro = document.getElementById("pesquisaPerfil").value.toLowerCase();
+  let perfis = document.getElementsByClassName("perfil");
+
+  for (let p of perfis) {
+    p.style.display = p.innerText.toLowerCase().includes(filtro)
+      ? "block"
+      : "none";
+  }
+}
 </script>
+
+</body>
+</html>
