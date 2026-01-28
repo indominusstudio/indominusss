@@ -6,60 +6,70 @@
 
 <style>
 body {
+  margin: 0;
   font-family: Arial, sans-serif;
   background: #111;
-  color: white;
-  margin: 0;
+  color: #fff;
 }
 
-/* MENU */
 nav {
   background: #1c1c1c;
   padding: 10px;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+  align-items: center;
 }
 
-nav button {
+.menu button {
   background: none;
   border: none;
   color: white;
-  font-size: 15px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-right: 10px;
+}
+
+.menu button:hover {
+  color: #4da6ff;
+}
+
+.perfil-topo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   cursor: pointer;
 }
 
-/* PESQUISA */
-header {
-  padding: 15px;
-  background: #181818;
-  display: flex;
-  gap: 10px;
+.perfil-topo img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #4da6ff;
 }
 
-input {
-  padding: 10px;
-  border-radius: 8px;
-  border: none;
-  width: 100%;
-}
-
-/* SEÇÕES */
 .section {
   padding: 20px;
+  display: none;
+}
+
+.section.active {
+  display: block;
 }
 
 .card {
   background: #222;
   padding: 15px;
-  border-radius: 12px;
-  margin-top: 10px;
+  border-radius: 10px;
+  max-width: 300px;
 }
 
-.perfil {
-  background: #333;
-  padding: 10px;
-  border-radius: 8px;
-  margin-top: 6px;
+input {
+  padding: 8px;
+  border-radius: 6px;
+  border: none;
+  width: 100%;
+  margin-top: 10px;
 }
 
 a {
@@ -71,56 +81,42 @@ a {
 
 <body>
 
-<!-- MENU -->
+<!-- TOPO -->
 <nav>
-  <button>Início</button>
-  <button>Loja</button>
-  <button>Perfil</button>
-  <button>Config</button>
+  <div class="menu">
+    <button onclick="abrir('inicio')">🏠 Início</button>
+    <button onclick="abrir('loja')">🛒 Loja</button>
+    <button onclick="abrir('perfil')">👤 Perfil</button>
+    <button onclick="abrir('config')">⚙️ Config</button>
+  </div>
+
+  <div class="perfil-topo" onclick="abrir('perfil')">
+    <img id="fotoTopo" src="https://i.imgur.com/Qq9Yp9N.png">
+    <span>Perfil</span>
+  </div>
 </nav>
 
-<!-- BARRAS DE PESQUISA -->
-<header>
-  <input id="pesquisaDino" placeholder="Pesquisar dinossauro">
-  <input id="pesquisaPerfil" placeholder="Pesquisar perfil" onkeyup="filtrarPerfis()">
-</header>
+<!-- INÍCIO -->
+<div id="inicio" class="section active">
+  <h2>🦖 Bem-vindo ao Indominus Promo</h2>
+  <p>Site de dinossauros, perfis e links.</p>
+</div>
 
-<!-- MOSASSAURO -->
-<div class="section">
-  <h2>Mosassauro em destaque</h2>
+<!-- LOJA -->
+<div id="loja" class="section">
+  <h2>🦕 Mosassauro em destaque</h2>
   <div class="card">
-    <img src="https://i.imgur.com/2yaf2wb.png" width="230"><br><br>
-
-    <a href="https://shopee.com.br/Dinossauro-Brinquedo-Mosassauro-Infantil-Dino-Mossassauro-Vinil-Macio-Menino-Menina-30-cm-i.1588658960.22398747182" target="_blank">
-      Ir para a loja
-    </a>
-
-    <p>Esse é o mosassauro que eu comprei</p>
+    <img src="https://i.imgur.com/2yaf2wb.png" width="100%">
+    <p>
+      <a href="https://shopee.com.br/Dinossauro-Brinquedo-Mosassauro-Infantil-Dino-Mossassauro-Vinil-Macio-Menino-Menina-30-cm-i.1588658960.22398747182" target="_blank">
+        🔗 Ir para a loja
+      </a>
+    </p>
   </div>
 </div>
 
-<!-- RANK -->
-<div class="section">
-  <h2>Ranking</h2>
-  <div id="listaPerfis">
-    <div class="perfil">IndominusStudio</div>
-    <div class="perfil">DinoKing</div>
-    <div class="perfil">MosassauroBR</div>
-  </div>
-</div>
+<!-- PERFIL -->
+<div id="perfil" class="section">
+  <h2>👤 Meu Perfil</h2>
 
-<script>
-function filtrarPerfis() {
-  let filtro = document.getElementById("pesquisaPerfil").value.toLowerCase();
-  let perfis = document.getElementsByClassName("perfil");
-
-  for (let p of perfis) {
-    p.style.display = p.innerText.toLowerCase().includes(filtro)
-      ? "block"
-      : "none";
-  }
-}
-</script>
-
-</body>
-</html>
+  <img id="fotoPerfil" src="https://i.
