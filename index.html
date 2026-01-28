@@ -1,123 +1,12 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html>
 <head>
 <meta charset="UTF-8">
-<title>Indominus Promo</title>
-
-<style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #111;
-  color: white;
-}
-
-/* MENU */
-.menu {
-  display: flex;
-  justify-content: space-around;
-  background: #1c1c1c;
-  padding: 10px 0;
-}
-
-.menu div {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 22px;
-  cursor: pointer;
-}
-
-.menu span {
-  font-size: 12px;
-  margin-top: 4px;
-}
-
-/* SEÇÕES */
-.section {
-  display: none;
-  padding: 20px;
-}
-.section.active {
-  display: block;
-}
-
-/* INPUTS */
-header {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-bottom: 20px;
-}
-input {
-  padding: 8px;
-  border-radius: 6px;
-  border: none;
-}
-
-/* CARDS */
-.card {
-  background: #222;
-  padding: 15px;
-  border-radius: 10px;
-  margin-bottom: 20px;
-}
-
-.perfil {
-  background: #333;
-  padding: 8px;
-  border-radius: 6px;
-  margin-top: 5px;
-}
-
-a {
-  color: #4da6ff;
-  text-decoration: none;
-}
-</style>
+<title>Teste</title>
 </head>
-
 <body>
 
-<!-- MENU COM ÍCONES -->
-<nav class="menu">
-  <div onclick="mostrar('inicio')">🏠<span>Início</span></div>
-  <div onclick="mostrar('loja')">🛒<span>Loja</span></div>
-  <div onclick="mostrar('perfil')">👤<span>Perfil</span></div>
-  <div onclick="mostrar('config')">⚙️<span>Config</span></div>
-</nav>
+<button onclick="alert('FUNCIONA')">CLICA AQUI</button>
 
-<!-- INÍCIO -->
-<div id="inicio" class="section active">
-  <header>
-    <input placeholder="Pesquisar dinossauro 🦖">
-    <input id="pesquisaPerfil" placeholder="Pesquisar perfil 👤" onkeyup="filtrarPerfis()">
-  </header>
-
-  <div class="card">
-    <h2>🦕 Mosassauro em destaque</h2>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Mosasaurus_hoffmannii_skeleton.jpg" width="260"><br><br>
-    <a href="https://shopee.com.br/Dinossauro-Brinquedo-Mosassauro-Infantil-Dino-Mossassauro-Vinil-Macio-Menino-Menina-30-cm-i.1588658960.22398747182" target="_blank">
-      🔗 Ir para a loja
-    </a>
-    <p>Esse é o mosassauro que eu comprei</p>
-  </div>
-
-  <h2>🏆 Ranking</h2>
-  <div id="listaPerfis">
-    <div class="perfil">IndominusStudio</div>
-    <div class="perfil">DinoKing</div>
-    <div class="perfil">MosassauroBR</div>
-  </div>
-</div>
-
-<!-- LOJA -->
-<div id="loja" class="section">
-  <h2>🛒 Loja</h2>
-  <p>Aqui os usuários vão adicionar links de compra (Shopee, Amazon etc).</p>
-</div>
-
-<!-- PERFIL -->
-<div id="perfil" class="section">
-  <h2>👤 Perfil</h2>
-  <p>Foto de perfil, nome e links (tipo YouTube)
+</body>
+</html>
