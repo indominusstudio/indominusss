@@ -6,55 +6,94 @@
 
 <style>
 body {
-  font-family: Arial;
+  font-family: Arial, sans-serif;
   background: #111;
   color: white;
   margin: 0;
-  padding: 20px;
 }
+
+nav {
+  background: #1c1c1c;
+  padding: 10px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+nav button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+}
+
 header {
+  padding: 15px;
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
 }
+
 input {
   padding: 8px;
-  border-radius: 5px;
+  border-radius: 6px;
   border: none;
 }
+
 .section {
-  margin-top: 30px;
+  padding: 20px;
 }
+
 .card {
   background: #222;
   padding: 15px;
   border-radius: 10px;
   margin-top: 10px;
 }
+
 .perfil {
-  padding: 8px;
   background: #333;
-  margin-top: 5px;
+  padding: 8px;
   border-radius: 6px;
+  margin-top: 5px;
+}
+a {
+  color: #4da6ff;
+  text-decoration: none;
 }
 </style>
 </head>
 
 <body>
 
+<!-- MENU -->
+<nav>
+  <button>🏠 Início</button>
+  <button>🛒 Loja</button>
+  <button>👤 Perfil</button>
+  <button>⚙️ Config</button>
+</nav>
+
+<!-- PESQUISAS -->
 <header>
   <input placeholder="Pesquisar dinossauro 🦖">
   <input id="pesquisaPerfil" placeholder="Pesquisar perfil 👤" onkeyup="filtrarPerfis()">
 </header>
 
+<!-- MOSASSAURO -->
 <div class="section">
   <h2>🦕 Mosassauro em destaque</h2>
   <div class="card">
-    <img src="mosassauro.jpg" width="200"><br>
-    <button>Ir para loja</button>
+    <img src="https://i.imgur.com/2yaf2wb.png" width="220"><br><br>
+    <a href="https://shopee.com.br/Dinossauro-Brinquedo-Mosassauro-Infantil-Dino-Mossassauro-Vinil-Macio-Menino-Menina-30-cm-i.1588658960.22398747182" target="_blank">
+      🔗 Ir para a loja
+    </a>
+    <p>Esse é o mosassauro que eu comprei</p>
   </div>
 </div>
 
+<!-- RANK -->
 <div class="section">
   <h2>🏆 Ranking</h2>
   <div id="listaPerfis">
